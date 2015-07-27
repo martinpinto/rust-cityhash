@@ -3,7 +3,7 @@ fn main() {
 
 }
 
-fn cityhash32(mut s: &[u8], len: usize) -> u32 { // mut s: &[u8]
+pub fn cityhash32(mut s: &[u8], len: usize) -> u32 { // mut s: &[u8]
   if len <= 24 {
   	return if len <= 12 {
         if len <= 4 {
@@ -100,12 +100,12 @@ fn hash32Len0to4(s: &[u8], len: usize) -> u32 {
   return fmix(mur(b, mur(len as u32, c)));
 }
 
-pub fn fetch32(p: &[u8]) -> u32 {
+fn fetch32(p: &[u8]) -> u32 {
     (p[0] as u32) | (p[1] as u32) << 8 | (p[2] as u32) << 16 | (p[3] as u32) << 24
 }
 
 // rotate32 is a bitwise rotate
-pub fn rotate32(val: u32, shift: u32) -> u32 {
+fn rotate32(val: u32, shift: u32) -> u32 {
     if shift == 0 {
         return val;
     }
@@ -122,7 +122,7 @@ pub const C1: u32 = 0xcc9e2d51;
 pub const C2: u32 = 0x1b873593;
 
 // fmix is a 32-bit to 32-bit integer hash copied from Murmur3.
-pub fn fmix(mut h: u32) -> u32 {
+fn fmix(mut h: u32) -> u32 {
     h ^= h >> 16;
     h = h.wrapping_mul(0x85ebca6b);
     h ^= h >> 13;
@@ -132,7 +132,7 @@ pub fn fmix(mut h: u32) -> u32 {
 }
 
 // Mur is a helper from Murmur3 for combining two 32-bit values.
-pub fn mur(mut a: u32, mut h: u32) -> u32 {
+fn mur(mut a: u32, mut h: u32) -> u32 {
     a = a.wrapping_mul(C1);
     a = rotate32(a, 17);
     a = a.wrapping_mul(C2);
@@ -164,7 +164,7 @@ fn hash32_len_13_to_24(s: &[u8], len: usize) -> u32 {
   return fmix(mur(f, mur(e, mur(d, mur(c, mur(b, mur(a, h)))))));
 }
 
-pub fn bswap32(x: u32) -> u32 {
+fn bswap32(x: u32) -> u32 {
     return ((x >> 24) & 0xFF) | ((x >> 8) & 0xFF00) |
         ((x << 8) & 0xFF0000) | ((x << 24) & 0xFF000000)
 }
