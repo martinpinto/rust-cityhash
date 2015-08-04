@@ -1,7 +1,4 @@
 use std::mem;
-fn main() {
-
-}
 
 pub fn cityhash32(mut s: &[u8], len: usize) -> u32 { // mut s: &[u8]
   if len <= 24 {
